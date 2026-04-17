@@ -19,7 +19,7 @@ typedef struct
     char* address;
     uint32_t sumMarks;
     float averageMarks;
-    char grades[MAX_SUBJECTS][MAX_GRADE_LENGTH];
+    char grades[MAX_GRADE_LENGTH];
     uint32_t rank;
 } student;
 

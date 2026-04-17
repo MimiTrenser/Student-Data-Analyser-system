@@ -210,7 +210,7 @@ bool menuStudentOverview(void)
     uint32_t *pulCount = 0;
     uint8_t *pucAvgMarks = 0;
 
-    if(studentGetCount(&pulCount))
+    if(studentGetCount(pulCount))
     {
         printf("Total number of students: %u\n", *pulCount);
         return STATUS_SUCCESS;
@@ -221,14 +221,16 @@ bool menuStudentOverview(void)
         return STATUS_ERROR;
     }
 
-    if(studentGetAvgMarksOfSubjects(&pucAvgMarks))
+    if(studentGetAvgMarksOfSubjects(pucAvgMarks))
     {
-        printf("Average marks of subjects: %u\n", pucAvgMarks);
+        printf("Average marks of subjects: %hhu\n", *pucAvgMarks);
+
         return STATUS_SUCCESS;
     }
     else
     {
         printf("Failed to get average marks of subjects.\n");
+
         return STATUS_ERROR;
     }
 
@@ -250,26 +252,26 @@ bool menuAddStudent(void)
     printf("Enter student details:\n");
     printf("Name: ");
     scanf("%s", pstInfo->name);
-    printf("Roll Number: ");
+    printf("\nRoll Number: ");
     scanf("%u", &pstInfo->rollNumber);
-    printf("Enter %d subjects marks: ", MAX_SUBJECTS);
+    printf("\nEnter %d subjects marks: ", MAX_SUBJECTS);
 
     for(int i = 0; i < MAX_SUBJECTS; i++)
     {
         scanf("%hhu", &pstInfo->marks[i]);
     }
 
-    if(!studentCalcSum(pstInfo, &pstInfo->sumMarks))
+    if(studentCalcSum(pstInfo, &pstInfo->sumMarks))
     {
-        printf("Failed to calculate sum of marks.\n");
-        free(pstInfo->address);
-        free(pstInfo);
+        printf("Sum of marks for student %s is : %u\n", pstInfo->name, pstInfo->sumMarks);
 
-        return STATUS_ERROR;
+        return STATUS_SUCCESS;
     }
     else
     {
-        printf("Sum of marks calculated successfully.\n");
+        printf("Failed to calculate sum of marks.\n");
+
+        return STATUS_ERROR;
     }
 
     if(studentCalcAverage(pstInfo, &pstInfo->averageMarks))
@@ -308,18 +310,17 @@ bool menuAddStudent(void)
     }
 
     printf("Address: ");
-    pstInfo->address = (char*)malloc(MAX_ADDRESS_LENGTH * sizeof(char));
+    pstInfo->address = malloc(MAX_ADDRESS_LENGTH);
 
-    if(pstInfo->address == NULL)
+    if (pstInfo->address == NULL) 
     {
         printf("Memory allocation for address failed.\n");
+        free(pstInfo);
 
         return STATUS_ERROR;
     }
 
     scanf("%s", pstInfo->address);
-
-
 
     if(studentAdd(pstInfo))
     {

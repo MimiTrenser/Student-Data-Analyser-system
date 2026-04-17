@@ -57,9 +57,28 @@ bool studentAdd(student* pstInfo)
 }
 bool studentCalcAverage(student* pstInfo, float* pfAvg)
 {
+    if(pstInfo == NULL || pfAvg == NULL)
+    {
+        return STATUS_ERROR;
+    }
+
+    *pfAvg = (float)pstInfo->sumMarks / MAX_SUBJECTS;
+
+    return STATUS_SUCCESS;
 }
-bool studentCalcSum(student* pstInfo, uint32* pulSum)
+bool studentCalcSum(student* pstInfo, uint32_t* pulSum)
 {
+    if(pstInfo == NULL || pulSum == NULL)
+    {
+        return STATUS_ERROR;
+    }
+
+    for(int i = 0; i < MAX_SUBJECTS; i++)
+    {
+        *pulSum += pstInfo->marks[i];
+    }
+
+    return STATUS_SUCCESS;
 }
 bool studentCalcGrades(student* pstInfo, uint8* pucSum)
 {
@@ -77,11 +96,35 @@ bool studentGetCount(uint32_t* pulCount)
         return STATUS_ERROR;
     }
 
+    *pulCount = studentCount;
 
-
+    return STATUS_SUCCESS;
 }
 bool studentGetAvgMarksOfSubjects(uint8_t* pucAvgMarks)
 {
+    if(pucAvgMarks == NULL)
+    {
+        return STATUS_ERROR;
+    }
+
+    if(studentCount == 0)
+    {
+        *pucAvgMarks = 0;
+
+        return STATUS_SUCCESS;
+    }
+
+    for(uint32_t i = 0; i < studentCount; i++)
+    {
+        for(uint32_t j = 0; j < MAX_SUBJECTS; j++)
+        {
+            *pucAvgMarks += students[i].marks[j];
+        }
+    }
+
+    *pucAvgMarks /= (studentCount * MAX_SUBJECTS);
+
+    return STATUS_SUCCESS;
 }
 
 bool studentDeleteByName(uint8_t* pucName)
