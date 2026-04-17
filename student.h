@@ -15,7 +15,7 @@ typedef struct
     char name[MAX_NAME_LENGTH];
     uint32_t rollNumber;
     uint8_t marks[MAX_SUBJECTS];
-    char* address; // Dynamic size
+    char* address;
     uint16_t sumMarks;
     float averageMarks;
     char grades[MAX_SUBJECTS][MAX_GRADE_LENGTH];

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "student.h"
 
 
@@ -238,30 +239,6 @@ bool menuAddStudent(void)
 {
     student* pstInfo = NULL;
 
-    printf("Enter student details:\n");
-    printf("Name: ");
-    char name[MAX_NAME_LENGTH];
-    scanf("%s", name);
-    printf("Roll Number: ");
-
-    uint32_t rollNumber = 0;
-
-    scanf("%u", &rollNumber);
-    printf("Marks for %d subjects:\n", MAX_SUBJECTS);
-
-    uint8_t marks[MAX_SUBJECTS];
-
-    for(int i = 0; i < MAX_SUBJECTS; i++)
-    {
-        printf("Subject %d: ", i + 1);
-        scanf("%hhu", &marks[i]);
-    }
-
-    printf("Address: ");
-
-    char address[MAX_ADDRESS_LENGTH];
-
-    scanf(" %[^\n]", address);
     pstInfo = (student*)malloc(sizeof(student));
 
     if(pstInfo == NULL)
@@ -269,6 +246,21 @@ bool menuAddStudent(void)
         printf("Memory allocation failed.\n");
         return STATUS_ERROR;
     }
+
+    printf("Enter student details:\n");
+    printf("Name: ");
+    scanf("%s", pstInfo->name);
+    printf("Roll Number: ");
+    scanf("%u", &pstInfo->rollNumber);
+    printf("Enter %d subjects marks: ", MAX_SUBJECTS);
+
+    for(int i = 0; i < MAX_SUBJECTS; i++)
+    {
+        scanf("%hhu", &pstInfo->marks[i]);
+    }
+
+    printf("Address: ");
+    scanf("%s", pstInfo->address);
 
     if(studentAdd(pstInfo))
     {
