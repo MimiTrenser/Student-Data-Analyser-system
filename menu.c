@@ -86,11 +86,13 @@ bool menuDeleteByRoll(void)
     if(studentDeleteByRoll(rollNumber))
     {
         printf("Student deleted successfully.\n");
+
         return STATUS_SUCCESS;
     }
     else
     {
         printf("Failed to delete student.\n");
+
         return STATUS_ERROR;
     }
 
@@ -109,17 +111,20 @@ bool menuDeleteAll(void)
         if(studentDeleteAll())
         {
             printf("All students deleted successfully.\n");
+
             return STATUS_SUCCESS;
         }
         else
         {
             printf("Failed to delete all students.\n");
+
             return STATUS_ERROR;
         }
     }
     else
     {
         printf("Deletion of all students cancelled.\n");
+
         return STATUS_SUCCESS;
     }
 
@@ -138,11 +143,13 @@ bool menuListSearchByName(void)
     if(studentGetName(name) == 0)
     {
         printf("No students found.\n");
+
         return STATUS_ERROR;
     }
     else
     {
         printf("Student found : %s\n", name);
+
         return STATUS_SUCCESS;
     }
 
@@ -156,11 +163,13 @@ bool menuListSortByName(void)
     if(studentGetSortedByName())
     {
         printf("Students sorted by name successfully.\n");
+
         return STATUS_SUCCESS;
     }
     else
     {
         printf("Failed to sort students by name.\n");
+
         return STATUS_ERROR;
     }
 
@@ -179,6 +188,7 @@ bool menuListSortByRoll(void)
     else
     {
         printf("Failed to sort students by roll number.\n");
+
         return STATUS_ERROR;
     }
 
@@ -192,11 +202,13 @@ bool menuListSortByRank(void)
     if(studentGetSortedByRank())
     {
         printf("Students sorted by rank successfully.\n");
+
         return STATUS_SUCCESS;
     }
     else
     {
         printf("Failed to sort students by rank.\n");
+
         return STATUS_ERROR;
     }
 
@@ -213,11 +225,13 @@ bool menuStudentOverview(void)
     if(studentGetCount(pulCount))
     {
         printf("Total number of students: %u\n", *pulCount);
+
         return STATUS_SUCCESS;
     }
     else
     {
         printf("Failed to get student count.\n");
+
         return STATUS_ERROR;
     }
 
@@ -246,6 +260,7 @@ bool menuAddStudent(void)
     if(pstInfo == NULL)
     {
         printf("Memory allocation failed.\n");
+
         return STATUS_ERROR;
     }
 
@@ -286,21 +301,22 @@ bool menuAddStudent(void)
         return STATUS_ERROR;
     }
 
-    if(!studentCalcGrades(pstInfo, (uint8_t*)&pstInfo->sumMarks))
+    if(studentCalcGrades(pstInfo, (uint8_t*)&pstInfo->sumMarks))
     {
-        printf("Failed to calculate grades.\n");
-        free(pstInfo);
+        printf("Grades calculated successfully.\n");
 
-        return STATUS_ERROR;
+        return STATUS_SUCCESS;
     }
     else
     {
-        printf("Grades calculated successfully.\n");
+        printf("Failed to calculate grades.\n");
+
+        return STATUS_ERROR;
     }
 
     if(studentUpdateRank())
     {
-        printf("Rank updated successfully.\n");
+        printf("Rank for student %s is: %hhu\n", pstInfo->name, pstInfo->rank);
     }
     else
     {
@@ -315,7 +331,6 @@ bool menuAddStudent(void)
     if (pstInfo->address == NULL) 
     {
         printf("Memory allocation for address failed.\n");
-        free(pstInfo);
 
         return STATUS_ERROR;
     }
@@ -325,11 +340,13 @@ bool menuAddStudent(void)
     if(studentAdd(pstInfo))
     {
         printf("Student added successfully.\n");
+
         return STATUS_SUCCESS;
     }
     else
     {
         printf("Failed to add student.\n");
+
         return STATUS_ERROR;
     }
 

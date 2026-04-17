@@ -19,8 +19,8 @@ typedef struct
     char* address;
     uint32_t sumMarks;
     float averageMarks;
-    char grades[MAX_GRADE_LENGTH];
-    uint32_t rank;
+    char grades[MAX_SUBJECTS];
+    uint8_t rank;
 } student;
 
 typedef enum
