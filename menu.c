@@ -283,6 +283,7 @@ bool menuAddStudent(void)
 
     return STATUS_SUCCESS;
 }
+
 bool menuListStudent(void)	// Print the students names based on "List Student menu"
 {
         printf("List Student Menu\n");
