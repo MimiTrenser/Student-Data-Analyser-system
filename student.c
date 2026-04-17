@@ -63,9 +63,11 @@ bool studentCalcSum(student* pstInfo, uint32* pulSum)
 }
 bool studentCalcGrades(student* pstInfo, uint8* pucSum)
 {
+    
 }
 bool studentUpdateRank(void)
 {
+
 }
 
 bool studentGetCount(uint32* pulCount)
