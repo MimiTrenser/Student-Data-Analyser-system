@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#define MAX_STUDENTS 200
 #define MAX_SUBJECTS 10
 #define MAX_NAME_LENGTH 50
 #define MAX_ADDRESS_LENGTH 200
@@ -16,7 +17,7 @@ typedef struct
     uint32_t rollNumber;
     uint8_t marks[MAX_SUBJECTS];
     char* address;
-    uint16_t sumMarks;
+    uint32_t sumMarks;
     float averageMarks;
     char grades[MAX_SUBJECTS][MAX_GRADE_LENGTH];
     uint32_t rank;

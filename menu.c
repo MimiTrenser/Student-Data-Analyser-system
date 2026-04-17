@@ -207,12 +207,12 @@ bool menuStudentOverview(void)
 {
     printf("Student Overview\n");
 
-    uint32_t pulCount = 0;
-    uint8_t pucAvgMarks = 0;
+    uint32_t *pulCount = 0;
+    uint8_t *pucAvgMarks = 0;
 
     if(studentGetCount(&pulCount))
     {
-        printf("Total number of students: %u\n", pulCount);
+        printf("Total number of students: %u\n", *pulCount);
         return STATUS_SUCCESS;
     }
     else
@@ -259,8 +259,67 @@ bool menuAddStudent(void)
         scanf("%hhu", &pstInfo->marks[i]);
     }
 
+    if(!studentCalcSum(pstInfo, &pstInfo->sumMarks))
+    {
+        printf("Failed to calculate sum of marks.\n");
+        free(pstInfo->address);
+        free(pstInfo);
+
+        return STATUS_ERROR;
+    }
+    else
+    {
+        printf("Sum of marks calculated successfully.\n");
+    }
+
+    if(studentCalcAverage(pstInfo, &pstInfo->averageMarks))
+    {
+        printf("Average marks calculated successfully.\n");
+    }
+    else
+    {
+        printf("Failed to calculate average marks.\n");
+        free(pstInfo);
+
+        return STATUS_ERROR;
+    }
+
+    if(!studentCalcGrades(pstInfo, (uint8_t*)&pstInfo->sumMarks))
+    {
+        printf("Failed to calculate grades.\n");
+        free(pstInfo);
+
+        return STATUS_ERROR;
+    }
+    else
+    {
+        printf("Grades calculated successfully.\n");
+    }
+
+    if(studentUpdateRank())
+    {
+        printf("Rank updated successfully.\n");
+    }
+    else
+    {
+        printf("Failed to update rank.\n");
+
+        return STATUS_ERROR;
+    }
+
     printf("Address: ");
+    pstInfo->address = (char*)malloc(MAX_ADDRESS_LENGTH * sizeof(char));
+
+    if(pstInfo->address == NULL)
+    {
+        printf("Memory allocation for address failed.\n");
+
+        return STATUS_ERROR;
+    }
+
     scanf("%s", pstInfo->address);
+
+
 
     if(studentAdd(pstInfo))
     {
@@ -272,6 +331,9 @@ bool menuAddStudent(void)
         printf("Failed to add student.\n");
         return STATUS_ERROR;
     }
+
+    free(pstInfo->address);
+    free(pstInfo);
 
     return STATUS_SUCCESS;
 }

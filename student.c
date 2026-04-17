@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "student.h"
 
-static student students[];
+static student students[MAX_STUDENTS] = {0};
 static uint32_t studentCount = 0;
 
 bool studentDeleteByName(uint8_t* pucName)
@@ -63,24 +63,31 @@ bool studentCalcSum(student* pstInfo, uint32* pulSum)
 }
 bool studentCalcGrades(student* pstInfo, uint8* pucSum)
 {
-    
+
 }
 bool studentUpdateRank(void)
 {
 
 }
 
-bool studentGetCount(uint32* pulCount)
+bool studentGetCount(uint32_t* pulCount)
 {
+    if(pulCount == NULL)
+    {
+        return STATUS_ERROR;
+    }
+
+
+
 }
-bool studentGetAvgMarksOfSubjects(uint8* pucAvgMarks)
+bool studentGetAvgMarksOfSubjects(uint8_t* pucAvgMarks)
 {
 }
 
-bool studentDeleteByName(uint8* pucName)
+bool studentDeleteByName(uint8_t* pucName)
 {
 }
-bool studentDeleteByRoll(uint32 ulRoll)
+bool studentDeleteByRoll(uint32_t ulRoll)
 {
 }
 bool studentDeleteAll(void)
