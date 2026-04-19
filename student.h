@@ -1,6 +1,21 @@
+/* student.h - header declarations for student.c */
+/*
+* Copyright (c) 2026 Trenser Technology Solutions (P) Ltd
+*/
+/*
+modification history --------------------
+08april26, Updated coding standards
+*/
+/*
+DESCRIPTION
+This module is for header declarations in student.c
+INCLUDE FILES: student.h
+*/
+
 #ifndef STUDENT_H
 #define STUDENT_H
 
+/* includes */
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -19,8 +34,8 @@ typedef struct
     char* address;
     uint32_t sumMarks;
     float averageMarks;
-    char grades[MAX_SUBJECTS];
-    uint8_t rank;
+    char grades[MAX_SUBJECTS][MAX_GRADE_LENGTH];
+    uint16_t rank;
 } student;
 
 typedef enum
