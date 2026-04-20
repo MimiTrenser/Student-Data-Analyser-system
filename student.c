@@ -30,6 +30,40 @@ static uint32_t studentCount = 0;
 
 /*******************************************************************************
 *
+* freeStudent - The function [freeStudent] will free student
+*
+*/
+void freeStudent(student *stData)
+{
+    if(stData != NULL)
+    {
+        free(stData->address);
+        stData->address = NULL;
+    }
+}
+
+/*******************************************************************************
+*
+* freeAllStudents - The function [freeAllStudents] will free all students 
+*
+*/
+void freeAllStudents(void)
+{
+    if(students != NULL)
+    {
+        for(uint32_t i = 0; i < studentCount; i++)
+        {
+            freeStudent(&students[i]);
+        }
+
+        free(students);
+        students = NULL;
+        studentCount = 0;
+    }
+}
+
+/*******************************************************************************
+*
 * studentGetSortedByRoll - The function [studentGetSortedByRoll] will sort 
 *students by roll no.
 */
@@ -376,6 +410,8 @@ bool studentDeleteByName(uint8_t* pucName)
     {
         if(strncmp((char*)pucName, (char*)students[i].name, MAX_NAME_LENGTH) == 0)
         {
+            freeStudent(students[i]);
+
             for(uint32_t j = i; j < studentCount - 1; j++)
             {
                 students[j] = students[j + 1];
@@ -424,6 +460,10 @@ bool studentDeleteByRoll(uint32_t ulRoll)
 */
 bool studentDeleteAll(void)
 {
-    studentCount = 0;
-    return STATUS_SUCCESS;
+    if(freeStudent(void))
+    {
+        return STATUS_SUCCESS;
+    }
+
+    return STATUS_ERROR
 }

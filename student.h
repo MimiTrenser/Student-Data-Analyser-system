@@ -59,5 +59,7 @@ bool studentGetName(char* pName);
 bool studentDeleteByName(uint8_t * pucName);
 bool studentDeleteByRoll(uint32_t ulRoll);
 bool studentDeleteAll(void);
+void freeStudent(student *stData);
+void freeAllStudents(void);
 
 #endif
