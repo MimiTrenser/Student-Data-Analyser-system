@@ -47,7 +47,7 @@ void freeStudent(student *stData)
 * freeAllStudents - The function [freeAllStudents] will free all students 
 *
 */
-void freeAllStudents(void)
+bool freeAllStudents(void)
 {
     if(students != NULL)
     {
@@ -59,7 +59,11 @@ void freeAllStudents(void)
         free(students);
         students = NULL;
         studentCount = 0;
+
+        return STATUS_SUCCESS;
     }
+
+    return STATUS_ERROR;;
 }
 
 /*******************************************************************************
@@ -410,7 +414,7 @@ bool studentDeleteByName(uint8_t* pucName)
     {
         if(strncmp((char*)pucName, (char*)students[i].name, MAX_NAME_LENGTH) == 0)
         {
-            freeStudent(student[i]);
+            freeStudent(&students[i]);
 
             for(uint32_t j = i; j < studentCount - 1; j++)
             {
@@ -460,7 +464,7 @@ bool studentDeleteByRoll(uint32_t ulRoll)
 */
 bool studentDeleteAll(void)
 {
-    if(freeStudent())
+    if(freeAllStudents())
     {
         return STATUS_SUCCESS;
     }
