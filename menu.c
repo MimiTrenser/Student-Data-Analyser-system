@@ -62,7 +62,15 @@ bool menuDeleteByName(void)
 
     char name[MAX_NAME_LENGTH];
 
-    scanf("%s", name);
+    if(fgets(name, sizeof(name), stdin) != NULL)
+    {
+        size_t length = strcspn(name, "\n");
+        name[length] = '\0';
+    }
+    else
+    {
+        return STATUS_ERROR;
+    }
 
     if(studentDeleteByName((uint8_t*)name))
     {
@@ -89,7 +97,7 @@ bool menuDeleteByRoll(void)
 
     uint32_t rollNumber = 0;
 
-    scanf("%u", &rollNumber);
+    scanf("%u",&rollNumber);
 
     if(studentDeleteByRoll(rollNumber))
     {
@@ -115,7 +123,7 @@ bool menuDeleteAll(void)
 
     char confirmation = 0;
 
-    scanf(" %c", &confirmation);
+    scanf(" %c",&confirmation);
 
     if(confirmation == 'y' || confirmation == 'Y')
     {
@@ -149,7 +157,15 @@ bool menuListSearchByName(void)
 
     char name[MAX_NAME_LENGTH] = {0};
 
-    scanf("%s", name);
+    if(fgets(name, sizeof(name), stdin) != NULL)
+    {
+        size_t length = strcspn(name, "\n");
+        name[length] = '\0';
+    }
+    else
+    {
+        return STATUS_ERROR;
+    }
 
     if(studentGetName(name) == 0)
     {
@@ -289,7 +305,20 @@ bool menuAddStudent(void)
 
         printf("Enter student details:\n");
         printf("Name: ");
-        scanf("%s", stInfo.name);
+
+        if(fgets(stInfo.name, sizeof(stInfo.name), stdin) != NULL)
+        {
+            size_t length = strcspn(stInfo.name, "\n");
+            stInfo.name[length] = '\0';
+        }
+        else
+        {
+            return STATUS_ERROR;
+        }
+
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+
         printf("Roll Number: ");
         scanf("%u", &stInfo.rollNumber);
         printf("Enter %d subjects marks:\n", MAX_SUBJECTS);
@@ -302,7 +331,17 @@ bool menuAddStudent(void)
         char stInfoAddress[MAX_ADDRESS_LENGTH] = {0};
 
         printf("Address: ");
-        scanf("%s",stInfoAddress);
+
+        if(fgets(stInfoAddress, sizeof(stInfoAddress), stdin) != NULL)
+        {
+            size_t length = strcspn(stInfoAddress, "\n");
+            stInfoAddress[length] = '\0';
+        }
+        else
+        {
+            return STATUS_ERROR;
+        }
+
         stInfo.address = malloc(strlen(stInfoAddress) + 1);
 
         if(stInfo.address == NULL)

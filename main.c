@@ -24,42 +24,8 @@ INCLUDE FILES: menu.h, student.h
 *
 * main - This function invoke mainMenu function 
 * 
-*
 * DESCRIPTION
 * The function [main] will invoke mainMenu function to store data from students
-*
-* PARAMETERS
-* \is
-* \i N/A
-* \ie
-*
-* GLOBALS:
-* \is
-*
-* \i N/A
-* \ie
-*
-* RETURNS:
-* \is
-* \i <FAILURE>
-* when mainMenu fails
-*
-* \i <SUCCESS>
-* when mainMenu success
-*
-* \ie
-* 
-* ERRNO:
-* \is
-* \i N/A
-*
-* \i N/A
-* \ie
-*
-* SEE ALSO:
-* Thread.c
-*
-* \INTERNAL
 */
 
 int main() 
