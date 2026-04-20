@@ -410,7 +410,7 @@ bool studentDeleteByName(uint8_t* pucName)
     {
         if(strncmp((char*)pucName, (char*)students[i].name, MAX_NAME_LENGTH) == 0)
         {
-            freeStudent(students[i]);
+            freeStudent(student[i]);
 
             for(uint32_t j = i; j < studentCount - 1; j++)
             {
@@ -460,10 +460,10 @@ bool studentDeleteByRoll(uint32_t ulRoll)
 */
 bool studentDeleteAll(void)
 {
-    if(freeStudent(void))
+    if(freeStudent())
     {
         return STATUS_SUCCESS;
     }
 
-    return STATUS_ERROR
+    return STATUS_ERROR;
 }
