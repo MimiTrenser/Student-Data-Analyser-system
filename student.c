@@ -3,8 +3,8 @@
 * Copyright (c) 2026 Trenser Technology Solutions (P) Ltd
 */
 /*
-modification history --------------------
-08april26, Updated coding standards
+*modification history --------------------
+*08april26, Updated coding standards
 */
 /*
 DESCRIPTION
@@ -20,10 +20,10 @@ INCLUDE FILES: student.h
 #include <string.h>
 #include "student.h"
 
-#define MAX_GRADE_A 90
-#define MAX_GRADE_B 80
-#define MAX_GRADE_C 70
-#define MAX_GRADE_D 40
+#define MAX_GRADE_A 90U
+#define MAX_GRADE_B 80U
+#define MAX_GRADE_C 70U
+#define MAX_GRADE_D 40U
 
 static student *students = NULL;
 static uint32_t studentCount = 0;
@@ -190,13 +190,9 @@ bool studentGetName(char* pName)
         {
             return STATUS_SUCCESS;
         }
-        else
-        {
-            return STATUS_ERROR;
-        }
     }
 
-    return STATUS_SUCCESS;
+    return STATUS_ERROR;
 }
 
 /*******************************************************************************
@@ -277,7 +273,7 @@ bool studentCalcSum(student* pstInfo, uint32_t* pulSum)
 
     *pulSum = 0;
 
-    for(int i = 0; i < MAX_SUBJECTS; i++)
+    for(uint8_t i = 0; i < MAX_SUBJECTS; i++)
     {
         *pulSum += pstInfo->marks[i];
     }
@@ -297,7 +293,7 @@ bool studentCalcGrades(student* pstInfo, uint8_t* pucSum)
         return STATUS_ERROR;
     }
 
-    for(int i = 0; i < MAX_SUBJECTS; i++)
+    for(uint8_t i = 0; i < MAX_SUBJECTS; i++)
     {
         if(pstInfo->marks[i] >= MAX_GRADE_A)
         {

@@ -3,7 +3,8 @@
 * Copyright (c) 2026 Trenser Technology Solutions (P) Ltd
 */
 /*
-modification history --------------------
+*modification history --------------------
+
 08april26, Updated coding standards
 */
 /*
@@ -20,11 +21,15 @@ INCLUDE FILES: student.h
 #include <stdint.h>
 #include <stdio.h>
 
-#define MAX_STUDENTS 200
-#define MAX_SUBJECTS 10
-#define MAX_NAME_LENGTH 50
-#define MAX_ADDRESS_LENGTH 200
-#define MAX_GRADE_LENGTH 2
+#define MAX_STUDENTS                200U
+#define MAX_SUBJECTS                10U
+#define MAX_NAME_LENGTH             50U
+#define MAX_ADDRESS_LENGTH          200U
+#define MAX_GRADE_LENGTH            2U
+#define CONFIRMATION_STR_LENGTH     4U
+#define CHOICE_STR_LENGTH           4U
+#define BUFFER_SIZE                 256U
+#define BASE                        10U
 
 typedef struct 
 {

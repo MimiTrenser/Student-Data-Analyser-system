@@ -21,6 +21,8 @@ INCLUDE FILES: Sensor.h
 #include "student.h"
 #include "menu.h"
 
+#define ROLL_NUMBER_LENGTH 20U
+
 typedef bool (*MenuFunction)(void);
 typedef bool (*ListFunction)(void);
 typedef bool (*DeleteFunction)(void);
@@ -60,7 +62,7 @@ bool menuDeleteByName(void)
 
     printf("Enter the name to delete: ");
 
-    char name[MAX_NAME_LENGTH];
+    char name[MAX_NAME_LENGTH] = {0};
 
     if(fgets(name, sizeof(name), stdin) != NULL)
     {
@@ -93,11 +95,21 @@ bool menuDeleteByName(void)
 */
 bool menuDeleteByRoll(void)
 {
+    uint32_t rollNumber = 0;
+    char rollNumberStr[ROLL_NUMBER_LENGTH] = {0};
+
     printf("Enter the roll number to delete: ");
 
-    uint32_t rollNumber = 0;
-
-    scanf("%u",&rollNumber);
+    if(fgets(rollNumberStr, sizeof(rollNumberStr), stdin) != NULL)
+    {
+        size_t length = strcspn(rollNumberStr, "\n");
+        rollNumberStr[length] = '\0';
+        rollNumber = (uint32_t)strtoul(rollNumberStr, NULL, 10);
+    }
+    else
+    {
+        return STATUS_ERROR;
+    }
 
     if(studentDeleteByRoll(rollNumber))
     {
@@ -122,10 +134,19 @@ bool menuDeleteAll(void)
     printf("Confirmation for deleting all students (y/n): ");
 
     char confirmation = 0;
+    char confirmationStr[CONFIRMATION_STR_LENGTH] = {0};
 
-    scanf(" %c",&confirmation);
+    if(fgets(confirmationStr, sizeof(confirmationStr), stdin) != NULL)
+    {
+        size_t length = strcspn(confirmationStr, "\n");
+        confirmation = (length > 0) ? confirmationStr[0] : 0;
+    }
+    else
+    {
+        return STATUS_ERROR;
+    }
 
-    if(confirmation == 'y' || confirmation == 'Y')
+    if((confirmation == 'y') || (confirmation == 'Y'))
     {
         if(studentDeleteAll())
         {
@@ -298,6 +319,10 @@ bool menuStudentOverview(void)
 bool menuAddStudent(void)
 {
     char choice = 'y';
+    char buffer[BUFFER_SIZE] = {0};
+    char choiceStr[CHOICE_STR_LENGTH] = {0};
+    int c = 0;
+    int character = 0;
 
     while(choice == 'y' || choice == 'Y')
     {
@@ -306,27 +331,52 @@ bool menuAddStudent(void)
         printf("Enter student details:\n");
         printf("Name: ");
 
-        if(fgets(stInfo.name, sizeof(stInfo.name), stdin) != NULL)
+        if(fgets(buffer, sizeof(stInfo.name), stdin) != NULL)
         {
-            size_t length = strcspn(stInfo.name, "\n");
-            stInfo.name[length] = '\0';
+            size_t length = strcspn(buffer, "\n");
+            buffer[length] = '\0';
+            strncpy(stInfo.name, buffer, sizeof(stInfo.name) - 1);
+            stInfo.name[sizeof(stInfo.name) - 1] = '\0';
         }
         else
         {
             return STATUS_ERROR;
         }
 
-        int c;
         while ((c = getchar()) != '\n' && c != EOF) { }
 
         printf("Roll Number: ");
-        scanf("%u", &stInfo.rollNumber);
+
+        if(fgets(buffer, sizeof(buffer), stdin) != NULL)
+        {
+            size_t length = strcspn(buffer, "\n");
+            buffer[length] = '\0';
+            stInfo.rollNumber = (uint32_t)strtoul(buffer, NULL, 10);
+        }
+        else
+        {
+            return STATUS_ERROR;
+        }
         printf("Enter %d subjects marks:\n", MAX_SUBJECTS);
 
-        for(int i = 0; i < MAX_SUBJECTS; i++)
+        for(uint8_t i = 0; i < MAX_SUBJECTS; i++)
         {
-            scanf("%hhu", &stInfo.marks[i]);
+
+            if(fgets(buffer, sizeof(buffer), stdin) != NULL)
+            {
+                size_t length = strcspn(buffer, "\n");
+                buffer[length] = '\0';
+                stInfo.marks[i] = (uint8_t)strtoul(buffer, NULL, 10);
+            }
+            else
+            {
+                return STATUS_ERROR;
+            }
         }
+
+        
+
+        while((character = getchar()) != '\n' && character != EOF);
 
         char stInfoAddress[MAX_ADDRESS_LENGTH] = {0};
 
@@ -334,8 +384,7 @@ bool menuAddStudent(void)
 
         if(fgets(stInfoAddress, sizeof(stInfoAddress), stdin) != NULL)
         {
-            size_t length = strcspn(stInfoAddress, "\n");
-            stInfoAddress[length] = '\0';
+            stInfoAddress[strcspn(stInfoAddress, "\n")] = '\0';
         }
         else
         {
@@ -416,7 +465,16 @@ bool menuAddStudent(void)
         free(stInfo.address);
 
         printf("Again need to add new student details (y/n): ");
-        scanf(" %c", &choice);
+
+        if(fgets(choiceStr, sizeof(choiceStr), stdin) != NULL)
+        {
+            size_t length = strcspn(choiceStr, "\n");
+            choice = (length > 0) ? choiceStr[0] : 0;
+        }
+        else
+        {
+            return STATUS_ERROR;
+        }
     }
 
     INFO("Returning to main menu.\n");
@@ -437,8 +495,18 @@ bool menuListStudent(void)
         printf("4. Sort by Rank\n");
 
         uint8_t choice = 0;
+        char choiceStr[CHOICE_STR_LENGTH] = {0};
 
-        scanf("%hhu", &choice);
+        if(fgets(choiceStr, sizeof(choiceStr), stdin) != NULL)
+        {
+            size_t length = strcspn(choiceStr, "\n");
+            choiceStr[length] = '\0';
+            choice = (uint8_t)strtoul(choiceStr, NULL, 10);
+        }
+        else
+        {
+            return STATUS_ERROR;
+        }
 
         if(choice < 1 || choice > LIST_MENU_SIZE)
         {
@@ -464,8 +532,18 @@ bool menuDeleteStudent(void)
         printf("3. Delete All\n");
 
         uint8_t choice = 0;
+        char choiceStr[CHOICE_STR_LENGTH] = {0};
 
-        scanf("%hhu", &choice);
+        if(fgets(choiceStr, sizeof(choiceStr), stdin) != NULL)
+        {
+            size_t length = strcspn(choiceStr, "\n");
+            choiceStr[length] = '\0';
+            choice = (uint8_t)strtoul(choiceStr, NULL, 10);
+        }
+        else
+        {
+            return STATUS_ERROR;
+        }
 
         if(choice < 1 || choice > DELETE_MENU_SIZE)
         {
@@ -487,6 +565,7 @@ bool menuMain()
 {
 
     uint8_t choice = 0;
+    char choiceStr[CHOICE_STR_LENGTH] = {0};
 
     printf("\n");
     printf("Welcome to the Student Management System, choose your choice \n");
@@ -495,7 +574,16 @@ bool menuMain()
     printf("3. List Student\n");
     printf("4. Delete Student\n");
 
-    scanf("%hhu", &choice);
+    if(fgets(choiceStr, sizeof(choiceStr), stdin) != NULL)
+    {
+        size_t length = strcspn(choiceStr, "\n");
+        choiceStr[length] = '\0';
+        choice = (uint8_t)strtoul(choiceStr, NULL, BASE);
+    }
+    else
+    {
+        return STATUS_ERROR;
+    }
 
     if(choice < 1 || choice > MAIN_MENU_SIZE)
     {

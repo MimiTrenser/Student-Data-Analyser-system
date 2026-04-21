@@ -4,6 +4,7 @@
 */
 /*
 modification history --------------------
+
 19april26, Updated Implementations
 */
 /*
@@ -42,8 +43,10 @@ int main()
         else
         {
             printf("An error occurred while executing the menu.\n");
+
+            return STATUS_ERROR;
         }
     }
 
-    return 0;
+    return STATUS_SUCCESS;
 }

@@ -3,7 +3,8 @@
 * Copyright (c) 2026 Trenser Technology Solutions (P) Ltd
 */
 /*
-modification history --------------------
+*modification history --------------------
+
 08april26, Updated coding standards
 */
 /*
@@ -11,10 +12,10 @@ DESCRIPTION
 This module is for header inclusion for menu.c
 */
 
-/* includes */
 #ifndef MENU_H
 #define MENU_H
 
+/* includes */
 #include <stdio.h>
 #include <stdbool.h>
 
